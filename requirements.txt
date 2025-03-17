@@ -1,0 +1,9 @@
+fastapi[standard]>=0.115.0,<0.116.0
+pydantic>=2.9.0,<2.10.0
+pydantic_settings>=2.5.2,<2.6.0
+python-dotenv>=1.0.1,<1.1.0
+influxdb-client>=1.48.0,<1.49.0
+websocket-client>=1.8.0,<1.9.0
+lightgbm>=4.6.0,<4.7.0
+pandas>=2.2.3,<2.3.0
+scikit-learn>=1.6.1,<1.7.0
