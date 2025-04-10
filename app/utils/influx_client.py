@@ -101,16 +101,17 @@ class InfluxConnector:
         """
 
         query = f"""data = from(bucket: "{self.bucket}")
-                        |> range(start: {start_ts.isoformat()}Z, stop: {end_ts.isoformat()}Z)  
+                        |> range(start: {start_ts.isoformat()}Z, stop: {end_ts.isoformat()}Z)
                         |> filter(fn: (r) => r["_measurement"] == "flowmeter")
                         |> filter(fn: (r) => r["_field"] == "reading")
                         |> filter(fn: (r) => r["id"] == "0")
-                    
+
                     flowMean = data
                         |> mean(column: "_value")
                         |> yield(name: "Mean")
 
                     flowMax = data
+                        |> aggregateWindow(every: 10s, fn: mean)  
                         |> max(column: "_value")
                         |> yield(name: "Peak")
 
