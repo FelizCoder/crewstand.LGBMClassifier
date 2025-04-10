@@ -15,8 +15,8 @@ jobs:
       - name: Ghcr.io Cleanup Action
         uses: dataaxiom/ghcr-cleanup-action@v1.0.16
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           dry-run: ${{ github.event.action != 'closed' }}
           delete-untagged: true
           delete-orphaned-images: true
           delete-tags: ${{ github.head_ref }}
+          package: crewstand.lgbmclassifier
