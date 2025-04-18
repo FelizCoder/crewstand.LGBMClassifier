@@ -1,4 +1,5 @@
 import threading
+import requests
 from typing import Optional
 import json
 from lightgbm import LGBMClassifier
@@ -6,7 +7,11 @@ import websocket
 import pandas as pd
 
 from app.models.flow_data import FlowClassifierFeatures, FlowDataSummary
-from app.models.missions import CompletedFlowControlMission, EndUseType
+from app.models.missions import (
+    ClassifiedFlowControlMission,
+    CompletedFlowControlMission,
+    EndUseType,
+)
 from app.utils.config import config
 from app.utils.influx_client import InfluxConnector
 from app.utils.logger import logger
@@ -99,10 +104,35 @@ class WebSocketService:
             prediction, flow_features = self.handle_mission_classification(mission)
             logger.debug(f"Predicted end use: {prediction}")
             end_use = EndUseType(prediction[0])
+            headers = {"Content-Type": "application/json", "accept": "application/json"}
+
+            classified_mission = ClassifiedFlowControlMission(
+                flow_control_mission=mission.flow_control_mission,
+                predicted_end_use=end_use,
+                features=flow_features,
+                end_ts=mission.end_ts,
+                start_ts=mission.start_ts,
+            )
+
+            # Perform the POST request
+            self._post_to_backend(headers, classified_mission)
+
             self.influx.write_classified_end_use(end_use, mission, flow_features)
 
         except Exception as e:
             logger.error(f"Error processing mission message: {e}")
+
+    def _post_to_backend(self, headers, classified_mission):
+        url = f"http://{config.BACKEND_BASE}/v1/missions/flow/last"
+        requests.post(
+            url,
+            headers=headers,
+            data=classified_mission.model_dump_json(),
+            timeout=0.5,
+        )
+        logger.debug(
+            "Posted mission to backend., %s", classified_mission.model_dump_json()
+        )
 
     # WebSocket event handlers
     def _on_mission_open(self, _ws):

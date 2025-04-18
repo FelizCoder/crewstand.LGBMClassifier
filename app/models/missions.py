@@ -4,6 +4,8 @@ from typing import NamedTuple, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
+from app.models.flow_data import FlowClassifierFeatures
+
 
 class TrajectoryPoint(NamedTuple):
     """
@@ -149,3 +151,43 @@ class CompletedFlowControlMission(BaseModel):
         ...,
         description="The timestamp the mission was completed",
     )
+
+
+class ClassifiedFlowControlMission(CompletedFlowControlMission):
+    """
+    Represents a flow control mission which has been classified based on its features.
+
+    Parameters
+    ----------
+    features : FlowClassifierFeatures
+        An instance of `FlowClassifierFeatures` used for classifying the mission.
+    predicted_end_use : EndUseType
+        The predicted end use for this mission as determined by the classifier.
+
+    Attributes
+    ----------
+    features : FlowClassifierFeatures
+        Features of the mission used for classification.
+    predicted_end_use : EndUseType
+        The end use category that the mission's features suggest it matches.
+
+    Methods
+    -------
+    None defined specifically for this subclass. It relies on the methods implemented in the superclass.
+
+    Raises
+    ------
+    ValueError
+        If the provided `predicted_end_use` is not a valid instance of `EndUseType`.
+    TypeError
+        If the provided `features` is not an instance of `FlowClassifierFeatures`.
+
+    Notes
+    -----
+    This class extends `CompletedFlowControlMission` and is intended to handle missions that have been completed
+    and classified according to their flow characteristics and other features. The classification algorithm
+    typically utilizes Machine Learning models to predict the `end_use` based on the provided `features`.
+    """
+
+    features: FlowClassifierFeatures
+    predicted_end_use: EndUseType
