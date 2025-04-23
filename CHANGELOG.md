@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/FelizCoder/crewstand.LGBMClassifier/compare/v0.1.0...v0.2.0) (2025-04-23)
+
+
+### Features
+
+* **models, services:** Introduce ClassifiedFlowControlMission & Backend Posting ([b6423cf](https://github.com/FelizCoder/crewstand.LGBMClassifier/commit/b6423cf373fa8265c03b4ad1dd0a814d9effe962)), closes [#10](https://github.com/FelizCoder/crewstand.LGBMClassifier/issues/10)
+
 ## [0.1.0](https://github.com/FelizCoder/crewstand.LGBMClassifier/compare/v0.0.0...v0.1.0) (2025-04-17)
 
 
