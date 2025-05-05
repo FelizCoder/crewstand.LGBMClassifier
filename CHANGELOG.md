@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/FelizCoder/crewstand.LGBMClassifier/compare/v0.2.0...v0.3.0) (2025-05-05)
+
+
+### Features
+
+* **model:** update model.pkl with new training data ([f98b83e](https://github.com/FelizCoder/crewstand.LGBMClassifier/commit/f98b83e8e0631966b8b9a84cf0b583ea99efc73c))
+
 ## [0.2.0](https://github.com/FelizCoder/crewstand.LGBMClassifier/compare/v0.1.0...v0.2.0) (2025-04-23)
 
 
